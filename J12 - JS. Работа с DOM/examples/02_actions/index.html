@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пример 2 - Обработка данных</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <script src="js/fio.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Обработка данных</h1>
+    </header>
+    <main>
+        <h1>Клик по кнопке (явно)</h1>
+        <button onclick="alert('Спасибо!')">Кликни меня!</button>
+
+        <hr/>
+        <h1>Ввод текста</h1>
+
+        <div id="form_fio">
+            <div>
+                <label for="given_name">Имя</label>
+                <input id="given_name"/>
+            </div>
+            <div>
+                <label for="family_name">Фамилия</label>
+                <input id="family_name"/>
+            </div>
+            <div>
+                <label for="full_name">Полное имя</label>
+                <input id="full_name" readonly/>
+            </div>
+        </div>
+
+        <hr/>
+        <h1>Арифметика</h1>
+
+        <div id="form_arithmetic">
+            <script src="js/arithmetic.js"></script>
+            <div>
+                <input id="arithmeticOperand1" size="5" value="12"/>
+                <input id="arithmeticPlus" type="button" value="+" class="arithmetic-button" />
+                <input id="arithmeticMinus" type="button" value="-" class="arithmetic-button" />
+                <input id="arithmeticMultiply" type="button" value="*" class="arithmetic-button" />
+                <input id="arithmeticDivide" type="button" value="/" class="arithmetic-button" />
+                <input id="arithmeticOperand2" size="5" value="6"/>
+                <span>=</span>
+                <input id="arithmeticResult" size="8" readonly/>
+            </div>
+        </div>
+
+        <hr/>
+        <h1>Таймер</h1>
+
+        <div id="form_timer">
+            <label>Остановить через</label>
+            <input name="goal" type="time" value="00:00:30" step="1"/>
+            <button name="start">Старт</button>
+            <button name="stop" disabled="true">Стоп</button>
+            <script src="js/timer.js"></script>
+            <div name="time-left">00:00:00</div>
+        </div>
+
+    </main>
+</body>
+</html>

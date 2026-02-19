@@ -1,0 +1,30 @@
+li {
+    display: block;
+}
+
+li::marker {
+    display: none;
+}
+
+li.expandable {
+    font-weight: light;
+}
+
+li::before {
+    content: "\00b7";
+    margin: 0 0.5em;
+    display: inline;
+}
+
+li.expandable::before {
+    content: "-";
+    cursor: pointer;
+}
+
+li.collapsed > ul {
+    display: none;
+}
+
+li.expandable.collapsed::before {
+    content: "+";
+}

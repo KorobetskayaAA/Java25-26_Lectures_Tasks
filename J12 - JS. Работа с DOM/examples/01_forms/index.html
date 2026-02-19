@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пример 1 - Формы</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+</head>
+
+<body>
+
+
+    <header>
+        <h1>Виды элементов управления</h1>
+    </header>
+    <main>
+        <form method="post" action="http://localhost/form-action">
+            <div>
+                <h2>Текст</h2>
+                <label>Простое текстовое поле<input type="text" placeholder="Введите текст" /></label>
+                <label>Пароль<input type="password" placeholder="Введите пароль" /></label>
+                <label>Поиск<input type="search" /></label>
+                <label>URL<input type="url" placeholder="https://example.com/" /></label>
+                <label>Телефон<input type="tel" /></label>
+                <label name="email">email*<input type="email" required /></label>
+                <label for="multiline_example">Многострочный текст</label>
+                <textarea id="multiline_example" rows="5" cols="35">
+                    </textarea>
+            </div>
+            <div>
+                <h2>Числа</h2>
+                <label>Число<input type="number" min="1" max="100" value="33" /></label>
+                <label>Диапазон<input type="range" /></label>
+            </div>
+            <div>
+                <h2>Дата и время</h2>
+                <label>Дата<input type="date" value="2030-01-01" /></label>
+                <label>Дата+время UTC (устарел)<input type="datetime" /></label>
+                <label>Дата+время локальное<input type="datetime-local" /></label>
+                <label>Время<input type="time" /></label>
+                <label>Месяц<input type="month" /></label>
+                <label>Неделя<input type="week" /></label>
+            </div>
+            <div>
+                <h2>Файлы и изображения</h2>
+                <label>Файл<input type="file" /></label>
+                <label>Изображение<input type="image" /></label>
+                <label>Цвет<input type="color" /></label>
+            </div>
+            <div>
+                <h2>Выбор</h2>
+                <fieldset>
+                    <legend>Переключатель</legend>
+                    <label><input type="radio" name="language" valuе="ru" checked>Русский ru</label>
+                    <label><input type="radio" name="language" valuе="en">Английский en</label>
+                    <label><input type="radio" name="language" valuе="cn">Китайский cn</label>
+                </fieldset>
+                <fieldset>
+                    <legend>Флажки</legend>
+                    <label>
+                        <input type="checkbox" name="question1" value="answer1" checked>
+                        Вариант 1
+                    </label>
+                    <label>
+                        <input type="checkbox" name="question1" value="answer2" >
+                        Вариант 2
+                    </label>
+                    <label>
+                        <input type="checkbox" name="question1" value="answer3" checked>
+                        Вариант 3
+                    </label>
+                </fieldset>
+                <div>
+                    <select size=1>
+                        <option>--Выберите вариант--</option>
+                        <option valuе="вариант1">вариант 1</option>
+                        <option value="вариант2">вариант 2</option>
+                        <option value="вариантЗ">вариант 3</option>
+                        <option value="вариант4">вариант 4</option>
+                    </select>
+                </div>
+                <div>
+                    <select size=1 multiple>
+                        <option valuе="вариант1">вариант 1</option>
+                        <option value="вариант2" selected>вариант 2</option>
+                        <option value="вариантЗ" selected>вариант 3</option>
+                        <option value="вариант4">вариант 4</option>
+                    </select>
+                </div>
+                <div>
+                    <select size=3>
+                        <option valuе="вариант1">вариант 1</option>
+                        <option value="вариант2" selected>вариант 2</option>
+                        <option value="вариантЗ">вариант 3</option>
+                        <option value="вариант4">вариант 4</option>
+                    </select>
+                    <select size=3 multiple>
+                        <option valuе="вариант1">вариант 1</option>
+                        <option value="вариант2">вариант 2</option>
+                        <option value="вариантЗ">вариант 3</option>
+                        <option value="вариант4">вариант 4</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <h2>Разное</h2>
+                <label>Отключено<input name="disabled_value" value="Не активно" disabled /></label>
+                <label>Отключено<input name="readonly_value" value="Не редактируется" readonly /></label>
+                <label>Скрыто<input name="hidden_value" type="hidden" value="12345" /></label>
+            </div>
+            <div>
+                <h2>Кнопки</h2>
+                <button type="button">Просто кнопка</button>
+                <button type="submit">Отправить</button>
+                <button type="reset">Сброс</button>
+            </div>
+        </form>
+    </main>
+
+</body>
+
+</html>
