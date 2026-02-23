@@ -21,7 +21,59 @@
         <div class="container">
             <noscript>You Need to Enable JavaScript to Run This App</noscript>
             <div id="playlist_root">
-
+                <div id="audiopicker">
+                    <div id="audiopicker">
+                        <div class="source-type-switcher">
+                            <label>
+                                <input type="radio" name="source-type" value="file" checked/>
+                                <span class="source-type-title">File</span>
+                            </label>
+                            <div class="source-type-content">
+                                <input type="file" name="source-file" accept="audio/*"/>
+                            </div>
+                            <label>
+                                <input type="radio" name="source-type" value="url"/>
+                                <span role="radio">URL</span>
+                            </label>
+                            <div class="source-type-content">
+                                <input type="url" name="source-url"/>
+                            </div>
+                        </div>
+                    </div>
+                    <button name="source-add">ADD</button>
+                </div>
+                <div id="player">
+                    <audio controls></audio>
+                    <!--div>
+                        <input type="range" name="player-seeker"/>
+                        <button name="player-play">PLAY</button>
+                        <button name="player-stop">STOP</button>
+                        <button name="player-pause">PAUSE</button>
+                        <button name="player-prev">PREV</button>
+                        <button name="player-next">NEXT</button>
+                        <input type="range" name="player-volume"/>
+                    </div-->
+                </div>
+                <div id="playlist">
+                    <!--div>
+                        <label><input type="checkbox"/>CLEAR</label>
+                        <label><input type="checkbox"/>SHUFFLE</label>
+                        <label><input type="checkbox"/>REPEAT ALL</label>
+                        <label><input type="checkbox"/>REPEAT SINGLE</label>
+                    </div-->
+                    <nav>
+                        <!--li class="playlist-item">
+                            <div>
+                            <a class="playlist-title" href="#">Link 1</a>
+                            <div>
+                                <button>UP</button>
+                                <button>DOWN</button>
+                                <button>DELETE</button>
+                            </div>
+                            </div>
+                        </li-->
+                    </nav>
+                </div>
             </div>
         </div>
     </main>
