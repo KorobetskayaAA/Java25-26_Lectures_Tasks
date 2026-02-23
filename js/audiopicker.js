@@ -7,43 +7,55 @@ document.addEventListener('DOMContentLoaded', () => {
     let playlistRoot = document
         .getElementById('playlist')
         .querySelector('nav');
-    let addButton = audiopickerRoot
+    let buttonAdd = audiopickerRoot
         .querySelector('[name="source-add"]');
+
+
+    let addDeleteButton = (sourceItem) => {
+        let deleteButton = document.createElement('button');
+        deleteButton.innerText = 'DELETE';
+        deleteButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            // Если удаляем активный – играть следующий
+            if (sourceItem.classList.contains('active')) {
+                let nextItem = sourceItem.nextSibling;
+                audioplayer.src = nextItem?.dataset.source;
+                nextItem?.classList.add('active');
+            }
+            sourceItem.remove();
+        });
+        sourceItem.append(deleteButton);
+    };
+
+    let playAudioSource = (listItem) => {
+        if (listItem) {
+            let currentActiveItem = playlistRoot
+                .querySelector('.active');
+            currentActiveItem?.classList.remove('active');
+            let track = listItem
+                .dataset.source;
+            audioplayer.src = track;
+            audioplayer.play();
+            listItem.classList.add('active');
+        }
+    }
 
     let addAudioSource = (source) => {
         let sourceItem = document.createElement('li');
-        let addDeleteButton = () => {
-            let deleteButton = document.createElement('button');
-            deleteButton.innerText = 'DELETE';
-            deleteButton.addEventListener('click', (event) => {
-                event.stopPropagation();
-                // Если удаляем активный – играть следующий
-                if (sourceItem.classList.contains('active')) {
-                    let nextItem = sourceItem.nextSibling;
-                    audioplayer.src = nextItem?.dataset.source;
-                    nextItem?.classList.add('active');
-                }
-                sourceItem.remove();
-                // очищаем зависимости для gc
-                sourceItem = null;
-            });
-            sourceItem.append(deleteButton);
-        };
         sourceItem.innerText = source;
         sourceItem.dataset.source = source;
-        addDeleteButton();
+        addDeleteButton(sourceItem);
+        sourceItem.addEventListener('click', (event) => {
+            event.stopPropagation();
+            playAudioSource(sourceItem);
+        });
         playlistRoot.append(sourceItem);
         return sourceItem;
     }
 
-    let playAudioSource = (source) => {
-        audioplayer.src = source;
-        audioplayer.play();
-    }
-
     let clearSourceInput = (sourceInput) => {
         sourceInput.value = '';
-        addButton.disabled = true;
+        buttonAdd.disabled = true;
     }
 
     let getSourceTypeInput = () => {
@@ -56,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .querySelector(`[name="${'source-' + sourceType}"]`);
     }
 
-    addButton.addEventListener('click', (event) => {
+    buttonAdd.addEventListener('click', (event) => {
         event.stopPropagation();
         let sourceTypeInput = getSourceTypeInput();
         let sourceType = sourceTypeInput.value;
@@ -64,8 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let sourceValue = sourceInput.value;
         let newItem = addAudioSource(sourceValue);
         if (!audioplayer.src) {
-            playAudioSource(sourceValue);
-            newItem.classList.add('active');
+            playAudioSource(newItem);
         }
         clearSourceInput(sourceInput);
     });
@@ -79,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let sourceType = sourceTypeInput.value;
             let sourceInput = getSourceInput(sourceType);
             let sourceValue = sourceInput.value;
-            addButton.disabled = !sourceValue;
+            buttonAdd.disabled = !sourceValue;
         });
     }
 });
