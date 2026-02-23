@@ -8,23 +8,56 @@ document.addEventListener('DOMContentLoaded', () => {
         .getElementById('playlist')
         .querySelector('nav');
 
-    let getAudioSourceValue = (name) => {
-        let input = audiopickerRoot.querySelector(`[name="${name}"]`);
-        return input.value;
-    }
-
     let addAudioSource = (source) => {
-        audioplayer.src = source;
         let sourceItem = document.createElement('li');
         sourceItem.innerText = source;
         playlistRoot.append(sourceItem);
     }
 
-    let addButton = audiopickerRoot.querySelector('[name="source-add"]');
+    let playAudioSource = (source) => {
+        if (!audioplayer.src) {
+            audioplayer.src = source;
+            audioplayer.play();
+        }
+    }
+
+    let clearSourceInput = (sourceInput) => {
+        sourceInput.value = '';
+    }
+
+    let getSourceTypeInput = () => {
+        return audiopickerRoot
+            .querySelector('[name="source-type"]:checked');
+    }
+
+    let getSourceInput = (sourceType) => {
+        return audiopickerRoot
+            .querySelector(`[name="${'source-' + sourceType}"]`);
+    }
+
+    let addButton = audiopickerRoot
+        .querySelector('[name="source-add"]');
     addButton.addEventListener('click', (event) => {
         event.stopPropagation();
-        let sourceType = audiopickerRoot.querySelector('[name="source-type"]:checked').value;
-        let sourceValue = getAudioSourceValue('source-' + sourceType);
+        let sourceTypeInput = getSourceTypeInput();
+        let sourceType = sourceTypeInput.value;
+        let sourceInput = getSourceInput(sourceType);
+        let sourceValue = sourceInput.value;
         addAudioSource(sourceValue);
-    })
+        playAudioSource(sourceValue);
+        clearSourceInput(sourceInput);
+    });
+
+    let allPickerInputs = audiopickerRoot
+        .getElementsByTagName('input');
+    for (let input of allPickerInputs) {
+        input.addEventListener('change', (event) => {
+            event.stopPropagation();
+            let sourceTypeInput = getSourceTypeInput();
+            let sourceType = sourceTypeInput.value;
+            let sourceInput = getSourceInput(sourceType);
+            let sourceValue = sourceInput.value;
+            addButton.disabled = !sourceValue;
+        });
+    }
 });
