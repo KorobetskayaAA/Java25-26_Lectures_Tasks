@@ -69,6 +69,36 @@ document.addEventListener('DOMContentLoaded', () => {
         sourceItem.append(moveButton);
     };
 
+    let allawDragAndDrop = (sourceItem) => {
+        sourceItem.draggable = true;
+        sourceItem.addEventListener('dragstart', (event) => {
+            event.stopPropagation();
+            let currentDraggingItem = event.target;
+            // в процессе перетаскивания сразу ставим элемент на новое место
+            let dragoverHandler = (event) => {
+                event.preventDefault(); // по умолчанию запрещено, отменяем
+                // на себя не перетаскиваем
+                if (!currentDraggingItem || event.target == currentDraggingItem) {
+                    return;
+                }
+                // только для элементов списка
+                if (event.target.parentElement == playlistRoot) {
+                    moveItemToPosition(currentDraggingItem,
+                        [...playlistRoot.children].indexOf(event.target));
+                }
+            };
+            // конец перетаскивания - очищаем всё
+            let dropHandler = (event) => {
+                event.preventDefault(); // по умолчанию запрещено, отменяем
+                currentDraggingItem = null;
+                playlistRoot.removeEventListener('dragover', dragoverHandler);
+                playlistRoot.removeEventListener('drop', dropHandler);
+            };
+            // включить перетаскивание во всем списке
+            playlistRoot.addEventListener('dragover', dragoverHandler);
+            playlistRoot.addEventListener('drop', dropHandler);
+        });
+    };
 
     let addAudioSource = (source) => {
         let sourceItem = document.createElement('li');
@@ -87,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
             event.stopPropagation();
             playAudioSource(sourceItem);
         });
+        allawDragAndDrop(sourceItem);
         playlistRoot.append(sourceItem);
         return sourceItem;
     };
