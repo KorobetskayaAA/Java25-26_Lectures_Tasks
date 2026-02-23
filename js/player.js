@@ -7,26 +7,23 @@ document.addEventListener('DOMContentLoaded', () => {
         .getElementById('playlist')
         .querySelector('nav');
     
-    audioplayer.addEventListener('ended', () => {
-        let currentTrack = audioplayer.src;
-        let currentListItem = playlistRoot
-            .querySelector('.active');
-        let nextListItem = currentListItem.nextSibling;
-        if (nextListItem) {
-            let nextTrack = nextListItem
+    let playListItem = (listItem) => {
+        if (listItem) {
+            let track = listItem
                 .dataset.source;
-            audioplayer.src = nextTrack;
+            audioplayer.src = track;
             audioplayer.play();
+            listItem.classList.add('active');
         }
-    });
-
-    audioplayer.addEventListener('play', () => {
-        let currentTrack = audioplayer.src;
-        let prevListItem = playlistRoot
-            .querySelector('.active');
+    }
+    
+    audioplayer.addEventListener('ended', () => {
         let currentListItem = playlistRoot
-            .querySelector(`[data-source="${currentTrack}"]`);;
-        prevListItem.classList.remove('active');
-        currentListItem.classList.add('active');
+            .querySelector('.active');
+        let nextListItem = currentListItem?.nextSibling;
+        if (nextListItem) {
+            currentListItem?.classList.remove('active');
+            playListItem(nextListItem);
+        }
     });
 });
