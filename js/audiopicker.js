@@ -11,6 +11,19 @@ document.addEventListener('DOMContentLoaded', () => {
         .querySelector('[name="source-add"]');
 
 
+    let playAudioSource = (listItem) => {
+        if (listItem) {
+            let currentActiveItem = playlistRoot
+                .querySelector('.active');
+            currentActiveItem?.classList.remove('active');
+            let track = listItem
+                .dataset.source;
+            audioplayer.src = track;
+            audioplayer.play();
+            listItem.classList.add('active');
+        }
+    }
+
     let addDeleteButton = (sourceItem) => {
         let deleteButton = document.createElement('button');
         deleteButton.innerText = 'DELETE';
@@ -27,31 +40,56 @@ document.addEventListener('DOMContentLoaded', () => {
         sourceItem.append(deleteButton);
     };
 
-    let playAudioSource = (listItem) => {
-        if (listItem) {
-            let currentActiveItem = playlistRoot
-                .querySelector('.active');
-            currentActiveItem?.classList.remove('active');
-            let track = listItem
-                .dataset.source;
-            audioplayer.src = track;
-            audioplayer.play();
-            listItem.classList.add('active');
+    let moveItemToPosition = (sourceItem, position) => {
+        if (position < 0) {
+            position = 0;
         }
-    }
+        if (position >= playlistRoot.children.length) {
+            position = playlistRoot.children.length - 1;
+        }
+        playlistRoot.removeChild(sourceItem);
+        let itemToInsertBefore = playlistRoot
+                .children[position];
+        if (itemToInsertBefore) {
+            playlistRoot.insertBefore(sourceItem, itemToInsertBefore);
+        }
+        else {
+            playlistRoot.append(sourceItem);
+        }
+    };
+
+
+    let addMoveButton = (sourceItem, caption, getTargetPosition) => {
+        let moveButton = document.createElement('button');
+        moveButton.innerText = caption;
+        moveButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            moveItemToPosition(sourceItem, getTargetPosition());
+        });
+        sourceItem.append(moveButton);
+    };
+
 
     let addAudioSource = (source) => {
         let sourceItem = document.createElement('li');
         sourceItem.innerText = source;
         sourceItem.dataset.source = source;
         addDeleteButton(sourceItem);
+        addMoveButton(sourceItem, "FIRST",
+            () => 0);
+        addMoveButton(sourceItem, "UP",
+            () => [...playlistRoot.children].indexOf(sourceItem) - 1);
+        addMoveButton(sourceItem, "DOWN",
+            () => [...playlistRoot.children].indexOf(sourceItem) + 1);
+        addMoveButton(sourceItem, "LAST",
+            () => playlistRoot.children.length - 1);
         sourceItem.addEventListener('click', (event) => {
             event.stopPropagation();
             playAudioSource(sourceItem);
         });
         playlistRoot.append(sourceItem);
         return sourceItem;
-    }
+    };
 
     let clearSourceInput = (sourceInput) => {
         sourceInput.value = '';
@@ -93,4 +131,10 @@ document.addEventListener('DOMContentLoaded', () => {
             buttonAdd.disabled = !sourceValue;
         });
     }
+
+    // TEST TODO: remove
+    addAudioSource('https://download.samplelib.com/mp3/sample-3s.mp3');
+    addAudioSource('https://download.samplelib.com/mp3/sample-6s.mp3');
+    addAudioSource('https://download.samplelib.com/mp3/sample-9s.mp3');
+    addAudioSource('https://download.samplelib.com/mp3/sample-12s.mp3');
 });
