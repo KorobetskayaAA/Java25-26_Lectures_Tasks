@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let addAudioSource = (source) => {
         let sourceItem = document.createElement('li');
         sourceItem.innerText = source;
+        sourceItem.dataset.source = source;
         playlistRoot.append(sourceItem);
     }
 
@@ -18,6 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!audioplayer.src) {
             audioplayer.src = source;
             audioplayer.play();
+            let newListItem = playlistRoot
+                .querySelector(`[data-source="${source}"]`);
+            newListItem.classList.add('active');
         }
     }
 
