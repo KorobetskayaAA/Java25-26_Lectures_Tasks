@@ -16,4 +16,17 @@ document.addEventListener('DOMContentLoaded', () => {
         audioplayer.src = null;
         playlistRoot.replaceChildren();
     });
+
+    let saveTracks = () => {
+        let tracksToSave = {
+            'activeTrack': audioplayer.src,
+            'tracks': [...playlistRoot.children]
+            .map(li => li.dataset.source)
+        };
+        localStorage.setItem('playlist', JSON.stringify(tracksToSave));
+    }
+
+    window.addEventListener('beforeunload', saveTracks);
 });
+
+

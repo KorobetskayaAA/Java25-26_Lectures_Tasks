@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .querySelector('[name="source-add"]');
 
 
-    let playAudioSource = (listItem) => {
+    let playAudioSource = (listItem, autoplay = true) => {
         if (listItem) {
             let currentActiveItem = playlistRoot
                 .querySelector('.active');
@@ -19,7 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
             let track = listItem
                 .dataset.source;
             audioplayer.src = track;
-            audioplayer.play();
+            if (autoplay) {
+                audioplayer.play();
+            }
             listItem.classList.add('active');
         }
     }
@@ -163,9 +165,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // TEST TODO: remove
-    addAudioSource('https://download.samplelib.com/mp3/sample-3s.mp3');
-    addAudioSource('https://download.samplelib.com/mp3/sample-6s.mp3');
-    addAudioSource('https://download.samplelib.com/mp3/sample-9s.mp3');
-    addAudioSource('https://download.samplelib.com/mp3/sample-12s.mp3');
+    let savedPlaylistJson = localStorage.getItem('playlist');
+    if (savedPlaylistJson) {
+        let savedPlaylist = JSON.parse(savedPlaylistJson);
+        playlistRoot.replaceChildren(); // на всякий случай очищаем
+        for (let track of savedPlaylist?.tracks) {
+            let addedSource = addAudioSource(track);
+            if (track == savedPlaylist.activeTrack) {
+                playAudioSource(addedSource, false);
+            }
+        }
+    }
 });
