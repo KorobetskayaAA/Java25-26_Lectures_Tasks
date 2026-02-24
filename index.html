@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Playlist</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./css/frameworks/normalize.css" />
     <link rel="stylesheet" href="./css/frameworks/skeleton.css" />
     <link rel="stylesheet" href="./css/playlist.css" />
@@ -27,23 +28,32 @@
                 <div id="audiopicker">
                     <div id="audiopicker">
                         <div class="source-type-switcher">
-                            <label>
-                                <input type="radio" name="source-type" value="file" checked/>
-                                <span class="source-type-title">File</span>
-                            </label>
-                            <div class="source-type-content">
-                                <input type="file" name="source-file" accept="audio/*"/>
+                            <li>
+                                <label>
+                                    <input type="radio" name="source-type" value="file" checked />
+                                    <span class="source-type-title">Файл</span>
+                                </label>
+                            </li>
+                            <div class="source-selector">
+                                <label class="filepicker">
+                                    <span class="input-file-text">Выберите файл</span>
+                                    <input type="file" name="source-file" />
+                                </label>
                             </div>
-                            <label>
-                                <input type="radio" name="source-type" value="url"/>
-                                <span role="radio">URL</span>
-                            </label>
-                            <div class="source-type-content">
-                                <input type="url" name="source-url"/>
+                            <li>
+                                <label>
+                                    <input type="radio" name="source-type" value="url" />
+                                    <span role="radio">URL</span>
+                                </label>
+                            </li>
+                            <div class="source-selector">
+                                <label>Введите URL
+                                    <input type="url" name="source-url" placeholder="https://" />
+                                </label>
                             </div>
-                        </div>
+                            </div>
+                        <button name="source-add" class="active" disabled>ADD</button>
                     </div>
-                    <button name="source-add" disabled>ADD</button>
                 </div>
                 <div id="player">
                     <audio controls></audio>
@@ -58,24 +68,51 @@
                     </div-->
                 </div>
                 <div id="playlist">
-                    <div>
-                        <button name="playlist-clear">CLEAR</button>
+                    <div class="control-panel">
+                        <button name="playlist-clear">
+                            <span class="fa fa-trash"></span>
+                            <span>CLEAR</span>
+                        </button>
                         <!--<label><input type="checkbox" name="playlist-options-shuffle" value="shuffle"/>SHUFFLE</label>-->
-                        <label><input type="checkbox" name="playlist-options-repeat-all" value="repeat-all"/>REPEAT ALL</label>
-                        <label><input type="checkbox" name="playlist-options-repeat-single" value="repeat-single"/>REPEAT SINGLE</label>
+                        <label><input type="checkbox" name="playlist-options-repeat-all" value="repeat-all"/>
+                            <span class="fa fa-retweet"></span>
+                            <span>REPEAT ALL</span>
+                        </label>
+                        <label><input type="checkbox" name="playlist-options-repeat-single" value="repeat-single"/>
+                            <span class="fa fa-refresh"></span>
+                            <span>REPEAT SINGLE</span>
+                        </label>
                     </div>
                     <nav>
-                        <!--li class="playlist-item">
-                            <div>
-                            <a class="playlist-title" href="#">Link 1</a>
-                            <div>
-                                <button>UP</button>
-                                <button>DOWN</button>
-                                <button>DELETE</button>
-                            </div>
-                            </div>
-                        </li-->
+                        <!-- PLAYLIST ITEMS TO ADD HERE -->
                     </nav>
+                    <template id="playlist-item-template">
+                        <li draggable="true">
+                            <span>track track track</span>
+                            <div>
+                                <button data-action="delete">
+                                    <span class="fa fa-lg fa-close"></span>
+                                    <span class="sr-only">DELETE</span>
+                                </button>
+                                <button data-action="first">
+                                    <span class="fa fa-lg fa-step-backward fa-rotate-90"></span>
+                                    <span class="sr-only">FIRST</span>
+                                </button>
+                                <button data-action="up">
+                                    <span class="fa fa-lg fa-caret-up"></span>
+                                    <span class="sr-only">UP</span>
+                                </button>
+                                <button data-action="down">
+                                    <span class="fa fa-lg fa-caret-down"></span>
+                                    <span class="sr-only">DOWN</span>
+                                </button>
+                                <button data-action="last">
+                                    <span class="fa fa-lg fa-step-forward fa-rotate-90"></span>
+                                    <span class="sr-only">LAST</span>
+                                </button>
+                            </div>
+                        </li>
+                    </template>
                 </div>
             </div>
         </div>

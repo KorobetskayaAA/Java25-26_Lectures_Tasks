@@ -9,6 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
         .querySelector('nav');
     let buttonAdd = audiopickerRoot
         .querySelector('[name="source-add"]');
+    let templatePlaylistItem = document
+        .getElementById('playlist-item-template')
+        .content
+        .querySelector('li');
 
 
     let playAudioSource = (listItem, autoplay = true) => {
@@ -27,8 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let addDeleteButton = (sourceItem) => {
-        let deleteButton = document.createElement('button');
-        deleteButton.innerText = 'DELETE';
+        let deleteButton = sourceItem.querySelector('button[data-action="delete"]');
         deleteButton.addEventListener('click', (event) => {
             event.stopPropagation();
             // Если удаляем активный – играть следующий
@@ -39,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             sourceItem.remove();
         });
-        sourceItem.append(deleteButton);
     };
 
     let moveItemToPosition = (sourceItem, position) => {
@@ -61,14 +63,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    let addMoveButton = (sourceItem, caption, getTargetPosition) => {
-        let moveButton = document.createElement('button');
-        moveButton.innerText = caption;
+    let addMoveButton = (sourceItem, action, getTargetPosition) => {
+        let moveButton = sourceItem
+            .querySelector(`button[data-action="${action}"]`);
         moveButton.addEventListener('click', (event) => {
             event.stopPropagation();
             moveItemToPosition(sourceItem, getTargetPosition());
         });
-        sourceItem.append(moveButton);
     };
 
     let allawDragAndDrop = (sourceItem) => {
@@ -103,17 +104,18 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     let addAudioSource = (source) => {
-        let sourceItem = document.createElement('li');
-        sourceItem.innerText = source;
+        let sourceItem = templatePlaylistItem.cloneNode(true);
         sourceItem.dataset.source = source;
+        let sourceItemText = sourceItem.querySelector('span');
+        sourceItemText.innerText = source;
         addDeleteButton(sourceItem);
-        addMoveButton(sourceItem, "FIRST",
+        addMoveButton(sourceItem, "first",
             () => 0);
-        addMoveButton(sourceItem, "UP",
+        addMoveButton(sourceItem, "up",
             () => [...playlistRoot.children].indexOf(sourceItem) - 1);
-        addMoveButton(sourceItem, "DOWN",
+        addMoveButton(sourceItem, "down",
             () => [...playlistRoot.children].indexOf(sourceItem) + 1);
-        addMoveButton(sourceItem, "LAST",
+        addMoveButton(sourceItem, "last",
             () => playlistRoot.children.length - 1);
         sourceItem.addEventListener('click', (event) => {
             event.stopPropagation();
@@ -156,7 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .getElementsByTagName('input');
     for (let input of allPickerInputs) {
         input.addEventListener('change', (event) => {
-            event.stopPropagation();
             let sourceTypeInput = getSourceTypeInput();
             let sourceType = sourceTypeInput.value;
             let sourceInput = getSourceInput(sourceType);
@@ -164,6 +165,15 @@ document.addEventListener('DOMContentLoaded', () => {
             buttonAdd.disabled = !sourceValue;
         });
     }
+
+    let inputFile = audiopickerRoot
+        .querySelector('input[type="file"]');
+    let inputFileTitle = audiopickerRoot
+        .querySelector('.input-file-text');
+    inputFile.addEventListener('change', () => {
+        inputFileTitle.innerText = inputFile.files[0]?.name;
+    }
+);
 
     let savedPlaylistJson = localStorage.getItem('playlist');
     if (savedPlaylistJson) {
