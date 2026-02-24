@@ -6,6 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let playlistRoot = document
         .getElementById('playlist')
         .querySelector('nav');
+    let playlistRepeatAll = document
+        .getElementById('playlist')
+        .querySelector('input[name="playlist-options-repeat-all"]');
+    let playlistRepeatSingle = document
+        .getElementById('playlist')
+        .querySelector('input[name="playlist-options-repeat-single"]');
     
     let playListItem = (listItem) => {
         if (listItem) {
@@ -18,9 +24,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     audioplayer.addEventListener('ended', () => {
+        if (playlistRepeatSingle.checked) {
+            audioplayer.play();
+            return;
+        }
         let currentListItem = playlistRoot
             .querySelector('.active');
         let nextListItem = currentListItem?.nextSibling;
+        if (playlistRepeatAll.checked && !nextListItem) {
+            nextListItem = playlistRoot.children[0];
+        }
         if (nextListItem) {
             currentListItem?.classList.remove('active');
             playListItem(nextListItem);
