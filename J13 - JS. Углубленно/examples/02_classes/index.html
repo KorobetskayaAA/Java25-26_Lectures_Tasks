@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classes</title>
+</head>
+<body>
+    <script src="class.js"></script>
+    <script>
+        console.log("Create user");
+        let user = new User("TestUser");
+        console.log(user);
+        console.log(user.created);
+
+        console.log("Promote user");
+        user.name = "TestAdmin";
+        user.promoteToAdmin(user);
+        console.log(user.name);
+        console.log(user.role);
+
+        let customer = new Customer("Ltd Store", { sum: 1000 });
+        console.log(customer);
+        console.log(customer.role);
+    </script>
+</body>
+</html>
