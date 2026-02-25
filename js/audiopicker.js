@@ -103,11 +103,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    let addAudioSource = (source) => {
+    let addAudioSource = (sourceValue, sourceTitle) => {
         let sourceItem = templatePlaylistItem.cloneNode(true);
-        sourceItem.dataset.source = source;
+        sourceItem.dataset.source = sourceValue;
         let sourceItemText = sourceItem.querySelector('span');
-        sourceItemText.innerText = source;
+        sourceItemText.innerText = sourceTitle;
         addDeleteButton(sourceItem);
         addMoveButton(sourceItem, "first",
             () => 0);
@@ -146,8 +146,16 @@ document.addEventListener('DOMContentLoaded', () => {
         let sourceTypeInput = getSourceTypeInput();
         let sourceType = sourceTypeInput.value;
         let sourceInput = getSourceInput(sourceType);
-        let sourceValue = sourceInput.value;
-        let newItem = addAudioSource(sourceValue);
+        let source = {};
+        if (sourceType == 'file') {
+            source.value = URL.createObjectURL(sourceInput.files[0]);
+            source.title = sourceInput.files[0].name;
+        }
+        else {
+            source.value = sourceInput.value;
+            source.title = sourceInput.value.split('/').at(-1);
+        }
+        let newItem = addAudioSource(source.value, source.title);
         if (!audioplayer.src) {
             playAudioSource(newItem);
         }
@@ -180,8 +188,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let savedPlaylist = JSON.parse(savedPlaylistJson);
         playlistRoot.replaceChildren(); // на всякий случай очищаем
         for (let track of savedPlaylist?.tracks) {
-            let addedSource = addAudioSource(track);
-            if (track == savedPlaylist.activeTrack) {
+            let addedSource = addAudioSource(track.value, track.title);
+            if (track.value == savedPlaylist.activeTrack) {
                 playAudioSource(addedSource, false);
             }
         }

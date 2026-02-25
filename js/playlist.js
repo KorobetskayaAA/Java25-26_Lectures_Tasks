@@ -21,7 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let tracksToSave = {
             'activeTrack': audioplayer.src,
             'tracks': [...playlistRoot.children]
-            .map(li => li.dataset.source)
+                .map(li => { return {
+                    'value': li.dataset.source, 
+                    'title': li.querySelector('span').innerText
+                }; })
         };
         localStorage.setItem('playlist', JSON.stringify(tracksToSave));
     }
