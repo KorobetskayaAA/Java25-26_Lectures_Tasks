@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <script src="./js/form-submission.js"></script>
+    <link
+        rel="shortcut icon"
+        href="https://static.tildacdn.com/tild3034-3061-4963-b163-313537623566/favicon_9.ico"
+        type="image/x-icon"
+    />
+</head>
+<body>
+    <header class="bg-primary text-light mb-4 py-1 border-bottom shadow">
+        <div class="container">
+            <h1>Форма регистрации</h1>
+        </div>
+    </header>
+    <main class="container">
+        <form class="needs-validation" novalidate>
+            <div class="row my-2">
+                <div class="col-md-6">
+                    <label for="first_name_input" class="form-label">Имя</label>
+                    <input type="text" class="form-control" id="first_name_input" name="first-name" required>
+                    <div class="invalid-feedback">
+                        Укажите имя
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="last_name_input" class="form-label">Фамилия</label>
+                    <input type="text" class="form-control" id="last_name_input" name="last-name" required>
+                    <div class="invalid-feedback">
+                        Укажите фамилию
+                    </div>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col-md-8">
+                    <label for="username_input" class="form-label">Логин</label>
+                    <div class="input-group has-validation">
+                    <input type="text" class="form-control" id="username_input" aria-describedby="input_group_prepend" name="username" required>
+                    <div class="invalid-feedback">
+                        Укажите имя пользователя, не менее 5 символов, может состоять из латинских букв, цифр и знака подчеркивания
+                    </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="level_select" class="form-label">Уровень</label>
+                    <select class="form-select" id="level_select" required>
+                        <option selected disabled value="">Выбрать</option>
+                        <option value="junior">Начинающий</option>
+                        <option value="professional">Специалист</option>
+                        <option value="expert">Эксперт</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Выберите свой уровень
+                    </div>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col">
+                    <label for="email_input" class="form-label">Email (необязательно)</label>
+                    <div class="input-group has-validation">
+                    <span class="input-group-text" id="input_group_prepend">@</span>
+                    <input type="email" class="form-control" id="email_input">
+                    <div class="invalid-feedback">
+                        Введите корректный адрес электронной почты
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col-md-6">
+                    <label for="password_input" class="form-label">Пароль</label>
+                    <input type="password" class="form-control" id="password_input" required>
+                    <div class="invalid-feedback">
+                        Укажите пароль не менее 8 символов, содержащий как минимум 1 цифру, 1 заглавную и 1 строчную букву.
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="password_conform_input" class="form-label">Подтверждение пароля</label>
+                    <input type="password" class="form-control" id="password_conform_input" required>
+                    <div class="invalid-feedback">
+                        Пароль не совпадает. Попробуйте ввести ещё раз
+                    </div>
+                </div>
+            </div>
+            <div class="row my-4">
+                <div class="col-12">
+                    <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                    <label class="form-check-label" for="invalidCheck">
+                        Подтверждаю согласие с правилами
+                    </label>
+                    <div class="invalid-feedback">
+                        Для регистрации необходимо согласие с правилами
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col">
+                    <button class="btn btn-primary" type="submit">Регистрация</button>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col">
+                    <div class="submit-result d-none alert alert-success" role="alert"></div>
+                </div>
+            </div>
+        </form>
+    </main>
+</body>
+</html>
